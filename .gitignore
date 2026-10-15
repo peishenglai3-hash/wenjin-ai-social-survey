@@ -1,0 +1,55 @@
+# Dependencies and local environments
+node_modules/
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+frontend/dist/
+
+# Secrets and credentials
+.env
+.env.*
+!.env.example
+secrets/
+credentials/
+*.pem
+*.key
+
+# Databases, uploads, logs and research data
+*.db
+*.sqlite
+*.sqlite3
+backend/logs/
+logs/
+uploads/
+data/private/
+*.wav
+*.mp3
+*.mp4
+*.mov
+
+# Generated/exported artifacts
+*.apk
+*.tar.gz
+*.zip
+*.bak
+*.tmp
+_tmp_*/
+frontend-b64.txt
+
+# Editors and operating-system files
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+
+# Local agent/tooling state
+.claude/
+.agents/
+skills/
+.codex/
+
+# Local screenshots and copied desktop paths
+frontend/UsersAdministratorDesktop*/
+frontend/C:*

@@ -1,0 +1,39 @@
+:root {
+  --primary: #4f46e5;
+  --primary-light: #eef2ff;
+  --accent: #0ea5e9;
+  --accent-light: #e0f2fe;
+  --text: #1e293b;
+  --text-muted: #64748b;
+  --bg: #f8fafc;
+  --surface: #ffffff;
+  --border: #e2e8f0;
+  --radius: 8px;
+
+  --font: "Inter", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", "Cascadia Code", monospace;
+
+  font-family: var(--font);
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text);
+  background: var(--bg);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+h1, h2, h3, h4 {
+  color: #111827;
+  font-weight: 600;
+}
+
+a {
+  text-decoration: none;
+  color: var(--primary);
+}
