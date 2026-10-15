@@ -12,7 +12,10 @@ from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_asyn
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 from app.main import app
+from app.api.deps_auth import get_current_profile, require_user
 from app.models.base import Base
+from app.models.survey import UserProfile
+from app.models.user import UserAccount
 from app.core.database import get_db
 
 
@@ -44,10 +47,38 @@ async def db_session(test_engine) -> AsyncGenerator[AsyncSession, None]:
 async def client(db_session) -> AsyncGenerator[AsyncClient, None]:
     """HTTPX async client that overrides the DB dependency."""
 
+    test_user = UserAccount(
+        email="test-researcher@example.invalid",
+        hashed_password="test-only-not-a-password-hash",
+        display_name="Test Researcher",
+        role="researcher",
+        is_active=True,
+    )
+    db_session.add(test_user)
+    await db_session.flush()
+    test_profile = UserProfile(
+        user_id=test_user.id,
+        role="undergraduate",
+        experience_level="beginner",
+        paradigm_preference="qualitative",
+    )
+    db_session.add(test_profile)
+    await db_session.commit()
+    await db_session.refresh(test_profile)
+
     async def _override_get_db():
         yield db_session
 
+    async def _override_require_user():
+        """Authenticate the test client without weakening production routes."""
+        return test_user
+
+    async def _override_current_profile():
+        return test_profile
+
     app.dependency_overrides[get_db] = _override_get_db
+    app.dependency_overrides[require_user] = _override_require_user
+    app.dependency_overrides[get_current_profile] = _override_current_profile
     transport = ASGITransport(app=app)
     async with AsyncClient(transport=transport, base_url="http://test") as ac:
         yield ac

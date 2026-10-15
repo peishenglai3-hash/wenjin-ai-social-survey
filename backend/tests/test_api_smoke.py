@@ -186,7 +186,7 @@ class TestDashboardEndpoint:
     @pytest.mark.asyncio
     async def test_dashboard_route(self, client):
         await client.post("/api/v1/profile", json={"role": "undergraduate"})
-        resp = await client.get("/api/v1/dashboard/1")
+        resp = await client.get("/api/v1/dashboard")
         assert resp.status_code == 200
         data = resp.json()
         assert "needs_setup" in data or "tips" in data
