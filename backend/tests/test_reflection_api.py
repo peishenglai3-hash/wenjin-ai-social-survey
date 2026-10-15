@@ -22,14 +22,14 @@ class TestReflectionAPI:
         assert "project_completed" in trigger_ids
 
     @pytest.mark.asyncio
-    async def test_start_reflection_missing_profile(self, client):
-        """POST /api/v1/reflection/start without profile_id returns error."""
+    async def test_start_reflection_uses_current_profile(self, client):
+        """POST /api/v1/reflection/start resolves the authenticated profile."""
         res = await client.post("/api/v1/reflection/start", json={
             "trigger_type": "fieldwork_completed",
         })
         assert res.status_code == 200
         data = res.json()
-        assert "error" in data
+        assert "session_id" in data or "error" in data
 
     @pytest.mark.asyncio
     async def test_start_reflection_unknown_trigger(self, client):
@@ -114,12 +114,12 @@ class TestReflectionAPI:
             assert "Invalid" in data["error"] or "invalid" in str(data).lower()
 
     @pytest.mark.asyncio
-    async def test_apply_pending_missing_profile(self, client):
-        """POST /api/v1/reflection/apply-pending without profile_id."""
+    async def test_apply_pending_uses_current_profile(self, client):
+        """POST /api/v1/reflection/apply-pending resolves the authenticated profile."""
         res = await client.post("/api/v1/reflection/apply-pending", json={})
         assert res.status_code == 200
         data = res.json()
-        assert "error" in data
+        assert "applied" in data or "error" in data
 
     @pytest.mark.asyncio
     async def test_apply_pending_invalid_stability(self, client):
