@@ -1,8 +1,9 @@
 
 """
-M.4 - Knowledge Card Ingestion Service.
-Reads 48 JSON knowledge cards, inserts into SQLite.
-Seeds M.3 design clusters (P0-2/P0-3/P0-4). Idempotent.
+ M.4 - Knowledge Card Ingestion Service.
+Optionally reads deployment-owned JSON knowledge cards and inserts them into SQLite.
+The public repository ships no corpus; operators must supply authorized data.
+Seeds M.3 design clusters (P0-2/P0-3/P0-4). Idempotent for the built-in clusters.
 """
 import json, logging
 from pathlib import Path

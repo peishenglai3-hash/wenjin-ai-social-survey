@@ -1,5 +1,5 @@
 """
-M.4 models: ReferenceCard (literature-extracted knowledge), SkillsCluster, TriggerKeyword.
+M.4 models: ReferenceCard (deployment-supplied reference knowledge), SkillsCluster, TriggerKeyword.
 ReferenceCard uses table "reference_cards" to avoid conflict with survey.KnowledgeCard.
 """
 from sqlalchemy import Index
@@ -9,7 +9,7 @@ from app.models.base import Base, TimestampMixin
 
 
 class ReferenceCard(Base, TimestampMixin):
-    """Literature-extracted structured knowledge from 6 academic PDFs (48 cards)."""
+    """Structured reference knowledge supplied by the deployment owner."""
     __tablename__ = "reference_cards"
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     source_slug: Mapped[str] = mapped_column(String(200), index=True, nullable=False)
