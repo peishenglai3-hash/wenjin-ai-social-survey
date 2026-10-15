@@ -47,7 +47,6 @@ desktop.ini
 # Local agent/tooling state
 .claude/
 .agents/
-skills/
 .codex/
 
 # Local screenshots and copied desktop paths

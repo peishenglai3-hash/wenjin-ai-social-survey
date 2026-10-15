@@ -140,5 +140,5 @@ class TestGlobalSingleton:
         """After the router imports and registers all skills, verify."""
         from app.api.v1.router import skill_registry as sr
         skills = sr.list_skills()
-        # v0.4.0 registers 10 skills
-        assert len(skills) == 10
+        # The router registers the qualitative coding skill as well.
+        assert len(skills) == 11
