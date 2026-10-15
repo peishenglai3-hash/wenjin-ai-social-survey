@@ -1,4 +1,5 @@
 from pydantic_settings import BaseSettings
+from pydantic import field_validator
 
 
 class Settings(BaseSettings):
@@ -113,6 +114,23 @@ class Settings(BaseSettings):
     # Public-facing base URL for file download by third-party APIs (DashScope FileTrans).
     # Set PUBLIC_BASE_URL only in a deployment that intentionally exposes a callback URL.
     public_base_url: str = ""
+
+    @field_validator("jwt_secret")
+    @classmethod
+    def validate_jwt_secret(cls, value: str) -> str:
+        """Refuse empty, placeholder, or trivially short signing keys."""
+        secret = value.strip()
+        placeholders = {
+            "replace-with-a-long-random-secret",
+            "change-me",
+            "changeme",
+            "secret",
+        }
+        if len(secret) < 32 or secret.lower() in placeholders:
+            raise ValueError(
+                "JWT_SECRET must be a deployment-specific random value of at least 32 characters"
+            )
+        return secret
 
 
 settings = Settings()

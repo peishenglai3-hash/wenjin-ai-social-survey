@@ -10,6 +10,8 @@ on:
 jobs:
   backend:
     runs-on: ubuntu-latest
+    env:
+      JWT_SECRET: ci-only-test-secret-please-do-not-use-in-production-20261015
     defaults:
       run:
         working-directory: backend
