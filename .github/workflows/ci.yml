@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [master]
+    branches: [main, master]
   pull_request:
-    branches: [master]
+    branches: [main, master]
   workflow_dispatch:
 
 jobs:
@@ -53,3 +53,6 @@ jobs:
 
       - name: Run tests
         run: npx vitest run
+
+      - name: Build
+        run: npm run build
